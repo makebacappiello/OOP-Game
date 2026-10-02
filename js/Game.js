@@ -20,8 +20,34 @@ class Game {
     const index = Math.floor(Math.random() * this.phrases.length);
     return this.phrases[index];
   }
+
   startGame() {
-    document.getElementById("overlay").style.display = "none"; //hides start screen
+    //Clear the old phrases and each li (aka letters) via the innerHTML
+    document.querySelector("#phrase ul").innerHTML = "";
+
+    //Reset the keys
+    const keysForClearing = document.querySelectorAll(".key");
+
+    for (let i = 0; i < keysForClearing.length; i++) {
+      //Loop through the keys,
+      keysForClearing[i].classList.remove("chosen"); //Remove chosen ones,
+      keysForClearing[i].classList.remove("wrong"); //remove the wrong ones,
+      keysForClearing[i].disabled = false; //and set disabled to false.
+    }
+
+    //reset the hearts
+    const heartsForClearing = document.querySelectorAll(".tries img");
+
+    //Loop through the hearts,
+    for (let i = 0; i < heartsForClearing.length; i++) {
+      heartsForClearing[i].src = "images/liveHeart.png"; //Change src back to  live hearts
+    }
+
+    const startScreen = document.getElementById("overlay"); //Find the overlay
+    startScreen.classList.remove("win", "lose"); //remove the last win/lose
+    startScreen.classList.add("start"); //change the class to start
+    startScreen.style.display = "none"; // hide the start screen
+
     this.activePhrase = this.getRandomPhrase(); //picks random phrase
     this.activePhrase.addPhraseToDisplay(); //shows it on the board
   }
@@ -64,8 +90,15 @@ class Game {
 
     if (this.activePhrase.checkLetter(letter)) {
       //true : the input was correct
+      button.classList.add("chosen");
+      this.activePhrase.showMatchedLetter(letter);
+      if (this.checkForWin()) {
+        this.gameOver(true);
+      }
     } else {
       //false: the input was wrong
+      button.classList.add("wrong");
+      this.removeLife();
     }
   }
 }
