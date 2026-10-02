@@ -25,6 +25,47 @@ class Game {
     this.activePhrase = this.getRandomPhrase(); //picks random phrase
     this.activePhrase.addPhraseToDisplay(); //shows it on the board
   }
+
+  //replaces a full heart with a lost heart and ends the game after 5 misses
+  removeLife() {
+    const hearts = document.querySelectorAll(".tries img");
+    hearts[this.missed].src = "images/lostHeart.png";
+    this.missed += 1;
+    if (this.missed === 5) {
+      this.gameOver(false);
+    }
+  }
+  //check if there are no more remaining hidden letters true/false
+  checkForWin() {
+    const hiddenLetters = document.querySelectorAll(".hide.letter");
+    return hiddenLetters.length === 0;
+  }
+
+  //show the overlay with a win/loss message
+  gameOver(winner) {
+    const overlay = document.getElementById("overlay");
+    const gameOverMessage = document.getElementById("game-over-message");
+    overlay.style.display = "flex";
+
+    //if win or otherwise display appropriate message on the overlay and class attributes
+    if (winner) {
+      gameOverMessage.textContent = "Congratulations! You Won";
+      overlay.classList.replace("start", "win");
+    } else {
+      gameOverMessage.textContent = "Better Luck Next Time! Try Again.";
+      overlay.classList.replace("start", "lose");
+    }
+  }
+
+  //handles a letter guess from the interface keyboard
+  handleInteraction(button) {
+    button.disabled = true;
+    const letter = button.textContent;
+
+    if (this.activePhrase.checkLetter(letter)) {
+      //true : the input was correct
+    } else {
+      //false: the input was wrong
+    }
+  }
 }
-// const game = new Game();//tester
-// game.startGame();//tester
