@@ -4,49 +4,48 @@
 
 class Phrase {
   constructor(phrase) {
-    //changes all input to lowercase
+    // Changes all input to lowercase and stores it so it's easy
+    // to compare with guessed letters
     this.phrase = phrase.toLowerCase();
   }
 
+  // Build the input phrase on the game board, one <li> per character
   addPhraseToDisplay() {
-    //selects the list inside class phrase
     const ul = document.querySelector("#phrase ul");
-    //loops over each character in this.phrase
+
     for (let i = 0; i < this.phrase.length; i++) {
       const character = this.phrase[i];
-      //   console.log(character);
       const li = document.createElement("li");
-      //if character is a space
+
+      // If character is a space add the space class so they can be
+      // styled as gaps
       if (character === " ") {
-        //add the space class
         li.classList.add("space");
-        //otherwise set the text,add hide, letter, and the character as classes
       } else {
+        // Otherwise set the text, add hide, letter, and the character as classes
         li.textContent = character;
         li.classList.add("hide", "letter", character);
       }
-      //add the li to the ul
+
       ul.appendChild(li);
     }
   }
-  //check whether the input letter appears in the phrase and returns TRUE or FALSE
+
+  //Check whether the input letter appears in the phrase and
+  //returns true or false
   checkLetter(letter) {
     return this.phrase.includes(letter);
   }
-  //reveals all board letters that match the input
+
+  //Reveals all board letters that match the input phrase guessed letter
   showMatchedLetter(letter) {
     //select every li that has the input letter as a class
     const letters = document.querySelectorAll(`.${letter}`);
 
-    //exchange hide for show
+    //Exchange hide for show
     letters.forEach((character) => {
       character.classList.remove("hide");
       character.classList.add("show");
     });
   }
 }
-//these are testers
-// const greeting = new Phrase("How are you");
-// console.log(greeting);
-// greeting.addPhraseToDisplay();
-// greeting.showMatchedLetter("o");
