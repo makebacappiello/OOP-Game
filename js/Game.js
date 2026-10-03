@@ -35,7 +35,7 @@ class Game {
       keysForClearing[i].disabled = false; //and set disabled to false.
     }
 
-    //reset the hearts
+    //Reset the hearts
     const heartsForClearing = document.querySelectorAll(".tries img");
 
     //Loop through the hearts,
@@ -66,7 +66,6 @@ class Game {
     const hiddenLetters = document.querySelectorAll(".hide.letter");
     return hiddenLetters.length === 0;
   }
-
   //show the overlay with a win/loss message
   gameOver(winner) {
     const overlay = document.getElementById("overlay");
